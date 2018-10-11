@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using System.IO;
@@ -35,7 +35,7 @@ namespace bolsolanguage
 
             }
 
-            List<string> Memory = new List<string>();
+
             string concSave = String.Empty;
 
             bool hasConc = false;
@@ -51,7 +51,10 @@ namespace bolsolanguage
                     //CheckIfHasConc
                     {
                         if (code__[saveConcLine - 1] == ' ' || code__[saveConcLine - 1] == '"')
-                        { hasConc = true; concSave = concSave + $": {saveConcLine} : "; }
+                        {
+                            hasConc = true;
+                            concSave = concSave + $": {saveConcLine} : ";
+                        }
                     }
 
                 }
@@ -73,7 +76,10 @@ namespace bolsolanguage
                             {
                                 codigo__refact = codigo__refact + code__[x];
                             }
-                            else if (code__[x] == '"' && code__[x + 1] == ';') { stop = true; }
+                            else if (code__[x] == '"' && code__[x + 1] == ';')
+                            {
+                                stop = true;
+                            }
                         }
                     }
 
@@ -111,22 +117,25 @@ namespace bolsolanguage
                     string codexx = String.Empty;
                     int numbLine = int.Parse(memoryLinesSplit[1].Replace(" ", String.Empty));
                     for (int i = 0; i < numbLine; i++)
-                    {                       
+                    {
                         codexx = codexx + codigo[i];
                     }
                     if (codexx.Contains("+"))
                     {
                         int posX = 0;
-                        for(int x = 0; x < codexx.Length; x++)
+                        for (int x = 0; x < codexx.Length; x++)
                         {
-                            if(codexx[x] == '+') { posX = x; }
+                            if (codexx[x] == '+')
+                            {
+                                posX = x;
+                            }
                         }
-                        if(codexx[posX] == '+' && codexx[posX-1] == '"' || codexx[posX] == '+' && codexx[posX+1] == ' ')
+                        if (codexx[posX] == '+' && codexx[posX - 1] == '"' || codexx[posX] == '+' && codexx[posX + 1] == ' ')
                         {
                             int save = 0;
                             bool stopthis = false;
-                            codexx = codexx.Replace("\"",String.Empty).Replace("\\",String.Empty);
-                            for(int l = 0; l < codigoFixed.Length; l++)
+                            codexx = codexx.Replace("\"", String.Empty).Replace("\\", String.Empty);
+                            for (int l = 0; l < codigoFixed.Length; l++)
                             {
                                 if (stopthis == false)
                                 {
@@ -134,16 +143,19 @@ namespace bolsolanguage
                                     {
                                         save = l;
                                     }
-                                    else { stopthis = true; }
+                                    else
+                                    {
+                                        stopthis = true;
+                                    }
                                 }
                             }
                             save = save + 1;
-                           
 
-                            
-                            char Last = codexx[codexx.Length-1];
+
+
+                            char Last = codexx[codexx.Length - 1];
                             bool stopaa = false;
-                            for(int x = 0; x < save + 32; x++)
+                            for (int x = 0; x < save + 32; x++)
                             {
                                 if (stopaa == false)
                                 {
@@ -157,7 +169,7 @@ namespace bolsolanguage
                                     }
                                 }
                             }
-                       //     Console.WriteLine(codigo__l);
+                            //     Console.WriteLine(codigo__l);
                         }
                     }
 
@@ -166,9 +178,9 @@ namespace bolsolanguage
                         if (hasConc)
                             Console.WriteLine(codigo__l);
                         else
-                            Console.WriteLine(codigo.Replace("\"",String.Empty).Replace(";",String.Empty));
+                            Console.WriteLine(codigo.Replace("\"", String.Empty).Replace(";", String.Empty));
                     }
-                    
+
                     codexx = String.Empty;
                 }
             }
@@ -191,4 +203,3 @@ namespace bolsolanguage
         }
     }
 }
-
