@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace bolsolanguage
 {
     class Program
     {
-
+        static Dictionary<string, int> varInt = new Dictionary<string, int>();
         static void CodeInterpreter(string code__)
         {
             string codigo__refact = String.Empty;
@@ -120,6 +121,7 @@ namespace bolsolanguage
                     {
                         codexx = codexx + codigo[i];
                     }
+
                     if (codexx.Contains("+"))
                     {
                         int posX = 0;
@@ -172,17 +174,88 @@ namespace bolsolanguage
                             //     Console.WriteLine(codigo__l);
                         }
                     }
-
-                    if (codigo_func.Contains("PACIFICAMENTE"))
-                    {
-                        if (hasConc)
-                            Console.WriteLine(codigo__l);
-                        else
-                            Console.WriteLine(codigo.Replace("\"", String.Empty).Replace(";", String.Empty));
-                    }
-
-                    codexx = String.Empty;
                 }
+
+                codigo = codigo.Replace("\"", String.Empty).Replace(";", String.Empty);
+
+
+
+                if (codigo_func.Contains("PACIFICAMENTE"))
+                {
+                    if (hasConc)
+
+                        Console.WriteLine(codigo__l);
+                    else
+                    {
+                        if (codigo[0] == '&')
+                        {
+                            codigo = varInt[codigo.Substring(1)].ToString();
+                        }
+                        Console.WriteLine(codigo);
+                    }
+                }
+
+                if (codigo_func.Contains("OLHA"))
+                {
+                    string nameVar = String.Empty;
+                    string byteV = String.Empty;
+                    int valueVar = 0;
+
+                    string x = codigo.Substring(2);
+
+                    bool findName = false;
+                    bool findValue = false;
+
+                    for (int i = 0; i < x.Length; i++)
+                    {
+                        if (findName == false)
+                        {
+                            if (x[i] != '=')
+                            {
+                                nameVar = nameVar + x[i];
+                            }
+                            else
+                            {
+                                findName = true;
+                            }
+                        }
+                        if (findName == true && findValue == false)
+                        {
+                            if (x[i] != 'T')
+                            {
+                                byteV = byteV + x[i];
+                            }
+                            else
+                            {
+                                findValue = true;
+                            }
+                        }
+                    }
+                    byteV = byteV.Substring(1);
+                    valueVar = int.Parse(byteV);
+                    varInt.Add(nameVar, valueVar);
+                }
+
+                if (codigo_func.StartsWith("DA"))
+                {
+                    codigo = codigo.Replace("QEUTEDOOUTRA", String.Empty);
+
+
+                    //https://stackoverflow.com/questions/1968049/how-to-separate-character-and-number-part-from-string
+                    Regex re = new Regex(@"([a-zA-Z]+)(\d+)");
+                    Match result = re.Match(codigo);
+
+                    string alphaPart = result.Groups[1].Value;
+                    string numberPart = result.Groups[2].Value;
+                    varInt[alphaPart] = varInt[alphaPart] + int.Parse(numberPart);
+
+
+
+                }
+
+
+
+
             }
 
         }
